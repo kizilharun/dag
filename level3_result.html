@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Freeman&family=Honk&family=Poetsen+One&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15%; 
+            background-color: #f5636b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2%;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw; 
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .menu-button {
+            background-color: #ffd700;
+            font-weight: bold;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .help-button {
+            background-color: #ff4500;
+            color: white;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .button:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 200%; 
+        }
+        .contunie-button {
+            position: absolute;
+            bottom: 3%;
+            right: 3%;
+            padding: 1% 4%;
+            font-size: 2vw;
+            font-weight: bold;
+            border: 0.4vw solid #000;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .contunie-button:hover {
+            transform: scale(1.1);
+        }
+        .level-container {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .level {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-family: "Freeman", sans-serif;
+            font-style: normal;
+            justify-content: space-between;
+        }
+        .level span {
+            font-size: 5vw;
+            color: #4CCAE6;
+        }
+        .result-container {
+            position: absolute;
+            top: 350%;
+            left: 47%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .result {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2em;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-family: "Freeman", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .result img {
+            width: 27vw;
+            height: auto;
+        }
+        .result span {
+            font-size: 3vw;
+            color: green;
+            border: 0.1vw solid #000;
+            margin: 1em;
+            padding: 1%;
+            padding-left: 2%;
+            padding-right: 2%;
+            font-weight: bold;
+        }
+        .result span.incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <button class="button menu-button" onclick="location.href='dashboard.html'">MENU</button>
+            <img src="assets/dag-title.png" class="logo" alt="Logo">
+            <button class="button help-button" onclick="location.href='help.html'">HELP</button>
+        </div>
+        <div class="level-container">
+            <div class="level">
+                <span>LEVEL 3</span>
+            </div>
+            <div class="result-container">
+                <div id="result-story" class="result">
+                    <img src="assets/problem.png" alt="problem">
+                    <span id="story-check"></span>
+                    <img id="story-points" src="" alt="point">
+                </div>
+                <div id="result-answer" class="result">
+                    <img src="assets/answer-box.png" alt="answer">
+                    <span id="answer-check"></span>
+                    <img id="answer-points" src="" alt="point">
+                </div>
+            </div>
+        </div>
+        <button class="contunie-button" onclick="location.href='score.html'">Continue</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        // Supabase client 
+        const SUPABASE_URL = 'https://urslutvbwvmhgbmgfkzb.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyc2x1dHZid3ZtaGdibWdma3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAzNjM5MDIsImV4cCI6MjAzNTkzOTkwMn0.zLvgCAqIKu_A0091QVmMp3DQcAyta6MM95MNohl3-bI';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        document.addEventListener('DOMContentLoaded', async (event) => {
+            const username = localStorage.getItem('username');
+
+            
+            const story_result = localStorage.getItem('own_story_result');
+            const own_story1 = localStorage.getItem('own_story_story1');
+            const own_story2 = localStorage.getItem('own_story_story2');
+
+            const answerResult = localStorage.getItem('answerResult_level3');
+
+            const storyCheck = document.getElementById('story-check');
+            const storyPoints = document.getElementById('story-points');
+            const answerCheck = document.getElementById('answer-check');
+            const answerPoints = document.getElementById('answer-points');
+
+          
+            let totalScore = JSON.parse(localStorage.getItem('total_score'));
+
+            // Cevap sonucu kontrolü
+            if (answerResult === 'correct') {
+                storyCheck.textContent = '✓';
+                storyPoints.src = 'assets/20-point.png';
+                answerCheck.textContent = '✓';
+                answerPoints.src = 'assets/20-point.png';
+                totalScore += 4; 
+            } else {
+                storyCheck.textContent = '✓';
+                storyPoints.src = 'assets/20-point.png';
+                answerCheck.textContent = 'X';
+                answerCheck.classList.add('incorrect');
+                answerPoints.src = 'assets/0-point.png';
+                totalScore += 20; 
+            }
+            localStorage.setItem('total_score', totalScore);
+
+            // Supabase'e toplam puanı kaydet
+            const { data, error } = await supabase
+                .from('users')
+                .update({ total_score: totalScore, user_story: own_story1, user_story2: own_story2})
+                .eq('username', username);
+
+            if (error) {
+                console.error('Error updating score:', error);
+            } else {
+                console.log('Score updated successfully:', data);
+            }
+        });
+    </script>
+</body>
+</html>

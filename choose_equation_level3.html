@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To Dag</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Honk&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/bg-square.png'); 
+            background-size: cover;
+            background-position: center;
+        }
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15%; 
+            background-color: #f5636b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2%;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw; 
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .help-button {
+            background-color: #ff4500;
+            color: white;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .menu-button {
+            background-color: #ffd700;
+            font-weight: bold;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .button:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }  
+        .equation-message {
+            position: absolute;
+            padding: 1% 4%;
+            font-size: 2vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            transition: background-color 0.3s;
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); /* Yatay ve dikey ortala */
+        }
+        .content {
+            position: absolute;
+            top: 40%;
+            left: 10%;
+            right: 10%;
+            font-size: 2.5vw;
+            text-align: left;
+            font-weight: bold;
+            font-family: "Comic Neue", cursive;
+            font-weight: 600;
+            font-style: normal;
+        }
+        .equation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 2vw;
+            width: 100%;
+            margin-top: 10%;
+        }
+        .equation-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 1.4vw;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .equation-grid img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <button class="button menu-button" onclick="location.href='dashboard.html'">MENU</button>
+            <button class="button help-button" onclick="location.href='help.html'">HELP</button>
+            <div class="equation-message">CHOOSE EQUATION</div>
+        </div>
+        <div class="equation-grid">
+            <img src="assets/eq1_lvl3.png" alt="X - 4 = 15" onclick="saveEquationAndNavigate(this)">
+            <img src="assets/eq2_lvl3.png" alt="Y - 3 = 10" onclick="saveEquationAndNavigate(this)">
+            <img src="assets/eq3_lvl3.png" alt="Z - 8 = 21" onclick="saveEquationAndNavigate(this)">
+            <img src="assets/eq4_lvl3.png" alt="2A + 6 = 12" onclick="saveEquationAndNavigate(this)">
+            <img src="assets/eq5_lvl3.png" alt="B + 3 = 16" onclick="saveEquationAndNavigate(this)">
+            <img src="assets/eq6_lvl3.png" alt="C + 5 = 12" onclick="saveEquationAndNavigate(this)">
+        </div>
+    </div>
+
+    <script>
+        function saveEquationAndNavigate(element) {
+            localStorage.setItem('selectedEquation_level3', element.alt);
+            location.href = 'choose_character_level3.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Dag</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/login.png'); 
+            background-size: cover;
+            background-position: center;
+        }
+        .continue-button {
+            position: absolute;
+            bottom: 3%;
+            right: 3%;
+            padding: 1% 4%;
+            font-size: 2vw;
+            font-weight: bold;
+            border: 0.4vw solid #000;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .continue-button:hover {
+            transform: scale(1.1);
+        }
+        .input-container {
+            position: absolute;
+            top: 57%; 
+            left: 28%; 
+            width: 40%; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .name-input {
+            padding: 3% 4%;
+            font-size: 2vw;
+            border: none; 
+            outline: none; 
+            width: 100%;
+            max-width: 400px;
+            background: transparent;
+            text-align: center;
+            font-weight: bold;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-container">
+            <input type="text" class="name-input" placeholder="Write Your Name">
+        </div>
+        <button class="continue-button" onclick="saveUsername()">Continue</button>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.20.0/dist/umd/supabase.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const SUPABASE_URL = 'https://urslutvbwvmhgbmgfkzb.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyc2x1dHZid3ZtaGdibWdma3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAzNjM5MDIsImV4cCI6MjAzNTkzOTkwMn0.zLvgCAqIKu_A0091QVmMp3DQcAyta6MM95MNohl3-bI';
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+            async function saveUsername() {
+                const username = document.querySelector('.name-input').value.trim();
+                if (!username) {
+                    alert('Please enter a username');
+                    return;
+                }
+                // Retrieve class_id from local storage
+                const class_id = localStorage.getItem('class_id');
+                console.log(class_id);
+                if (!class_id || isNaN(class_id)) {
+                    alert('No valid class selected');
+                    return;
+                }
+
+                try {
+                    // Mevcut kullanıcı adını kontrol et
+                    const { data: existingUsers, error: fetchError } = await supabase
+                        .from('users')
+                        .select('username')
+                        .eq('username', username);
+
+                    if (fetchError) {
+                        console.error('Error fetching user:', fetchError);
+                        alert('Error checking user!');
+                        return;
+                    }
+
+                    if (existingUsers.length > 0) {
+                        alert('Username already exists. Please choose a different username.');
+                        return;
+                    }
+
+                    // Supabase'e kaydet
+                    const { data, error } = await supabase
+                        .from('users')
+                        .insert([{ username,  class_id: parseInt(class_id), current_level: 1 }]);
+
+                    if (error) {
+                        console.error('Error:', error);
+                        alert('Error saving user!');
+                    } else {
+                        // Local Storage'a kaydet
+                        localStorage.setItem('username', username);
+                        window.location.href = 'welcome.html';
+                    }
+                } catch (error) {
+                    console.error('Unexpected error:', error);
+                    alert('Unexpected error occurred!');
+                }
+            }
+
+            window.saveUsername = saveUsername;
+        });
+    </script>
+</body>
+</html>

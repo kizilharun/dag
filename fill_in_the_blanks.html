@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose The Correct Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Freeman&family=Honk&family=Poetsen+One&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw;
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .floor-container {
+            left: -10%;
+            position: absolute;
+            top: 20%; 
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 2;
+
+        }
+        .floor img {
+            width: 120%;
+            left: -10%;
+            height: auto;
+            position: absolute;
+            top: 20%; 
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 2; 
+        }
+        .bg-image-container{
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%; 
+            height: 60%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('assets/school-bg.png'); 
+            opacity: 0.5;
+            z-index: 1; 
+
+        }
+        .welcome-message {
+            position: absolute;
+            padding: 1% 4%;
+            font-size: 3vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            transition: background-color 0.3s;
+            top: 8%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Comic Neue", cursive;
+            font-weight: 700;
+            font-style: normal;
+        }
+        .equation-message {
+            position: absolute;
+            padding: 1% 3%;
+            color:white;
+            font-size: 1.5vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            background-color: green;
+            transition: background-color 0.3s;
+            top: 8%; /* Üstten mesafe */
+            right: 2%; /* Sağ kenardan mesafe */
+            transform: translate(0, -50%); /* Sadece yukarı merkezleme */
+            font-family: "Comic Neue", cursive;
+            font-weight: 700;
+            font-style: normal;
+            text-align: right; /* Yazıyı sağa hizalar */
+        }
+        .character-container {
+            position: absolute;
+            top: 60%;
+            left: 52%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 3;
+        }
+        .character {
+            display: flex;
+            align-items: center;
+            font-style: normal;
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            z-index: 3; 
+        }
+        .contuniue-button {
+            position: absolute;
+            bottom: 3%;
+            right: 3%;
+            padding: 1% 4%;
+            font-size: 2vw;
+            font-weight: bold;
+            border: 0.4vw solid #000;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 3;
+
+        }
+        .contuniue-button:hover {
+            transform: scale(1.1);
+        }
+        .story-container {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 2;
+        }
+        .story {
+            margin: 3vw 5vw; 
+            width: 100%;
+            z-index: 4;
+        }
+        .story img {
+            width: 100%;
+            height: auto;
+        }
+
+        .story1-text-container {
+            position: absolute;
+            top: 33%; 
+            left: 5%; 
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .story1-input {
+            font-size: 1.1vw;
+            border: none; 
+            outline: none; 
+            width: 100%;
+            max-width: 400px;
+            background: transparent;
+            text-align: center;
+            font-weight: bold;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+            border: 0.2vw solid #000;
+            border-radius: 1vw;
+            padding: 1vw;
+        }
+ 
+        .story1-text-container {
+            top: 33%;
+            left: 5%; 
+        }
+        /* Denklemin ve inputların stili */
+        .equation-container {
+            position: absolute;
+            top: 70%;
+            left: 60%;
+            display: flex;
+            align-items: center;
+            font-size: 2vw;
+            font-family: 'Comic Neue', cursive;
+            color: black;
+            z-index: 3;
+            font-weight: bold;
+            border: 0.2vw solid #000;
+            border-radius: 1vw;
+            padding: 1vw;
+        }
+        .input-container {
+            margin-left: 30px;
+        }
+        input {
+            width: 50px;
+            padding: 5px;
+            font-size: 1.5vw;
+            text-align: center;
+            border: 2px solid #000;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <div class="welcome-message">FILL IN THE BLANKS</div>
+            <div class="equation-message" id="equation-message">Eq :  </div>
+        </div>
+
+        <div class="floor">
+            <img src="assets/floor1.png" alt="floor">
+        </div>
+
+        <img class="character" id="character-img" src="assets/girl-bg.png" alt="Character">
+
+        <div class="story-container">
+            <div class="story story1" >
+                <div class="story1-text-container">
+                    <p type="text" class="story1-input" id="story1-text"></p>
+                </div>
+            </div>
+            <div class="story story2" >
+                <div class="equation-container">
+                    <div class="input-container">
+                        <span id="equation">Blank 1 :</span>
+                        <input type="text" id="blank1" placeholder="?" maxlength="2">
+                    </div>
+                    <div class="input-container">
+                        <span id="equation">Blank 2 :</span>
+                        <input type="text" id="blank2" placeholder="?" maxlength="2">
+                    </div>
+                    <div class="input-container">
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="bg-image-container" id="bg-image-container"></div>
+        <button class="contuniue-button" id="continueBtn">Continue</button>
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Character 
+            const selectedCharacter = localStorage.getItem('selectedCharacter_level2');
+            if (selectedCharacter) {
+                document.getElementById('character-img').src = selectedCharacter;
+            }
+
+            // Place 
+            const selectedPlace = localStorage.getItem('selectedPlace_level2');
+            if (selectedPlace) {
+                const bgImageUrl = selectedPlace.replace('.png', '-bg.png');
+                document.getElementById('bg-image-container').style.backgroundImage = `url('${bgImageUrl}')`;
+            }
+
+            // Equations
+            const equation = localStorage.getItem('selectedEquation_level2');
+            const place = localStorage.getItem('selectedPlace_level2');
+            const selectedEquation = localStorage.getItem('selectedEquation_level2');
+            if (selectedEquation) {
+                document.getElementById('equation-message').textContent += selectedEquation;
+            }
+            const characterName = localStorage.getItem('characterName_level2') || 'El';
+
+            const stories = {
+                park: {
+                    'X - 2 = 8': {
+                        correct: `${characterName} was at the park enjoying a sunny afternoon. ${characterName} decided to buy an ice cream for ........ dollars. After enjoying the treat, ${characterName} realized they had ........ dollars left. How much money did ${characterName} originally have?`,
+                        input_1: 2,
+                        input_2: 8
+                    },
+                    'Y - 4 = 12': {
+                        correct: `${characterName} was at the park enjoying a sunny afternoon. ${characterName} decided to buy an ice cream for ........ dollars. After enjoying the treat, ${characterName} realized they had ........ dollars left. How much money did ${characterName} originally have?`,
+                        input_1: 4,
+                        input_2: 12
+                    },
+                    'Z - 5 = 10': {
+                        correct: `${characterName} was at the park enjoying a sunny afternoon. ${characterName} decided to buy an ice cream for ........ dollars. After enjoying the treat, ${characterName} realized they had ........ dollars left. How much money did ${characterName} originally have?`,
+                        input_1: 5,
+                        input_2: 10
+                    },
+                    '2A + 4 = 12': {
+                        correct: `${characterName} was at the park enjoying a sunny afternoon picnic. ${characterName} decided to buy some colorful kites to make the day even more memorable. Each kite ${characterName} bought at the market cost ........ pounds. That day, ${characterName} also picked up a refreshing lemonade for ........ pounds. If ${characterName} spent a total of ........ pounds, how many kites did ${characterName} buy?`,
+                        input_1: 2,
+                        input_2: 4,
+                        input_3: 12
+                    },
+                    'B + 5 = 17': {
+                        correct: `${characterName} was at the park playing basketball and scoring points. After a while, ${characterName} scored ........ more points. If ${characterName}'s total score became ........ points, what was ${characterName}'s initial score?`,
+                        input_1: 5,
+                        input_2: 17
+                    },
+                    'C + 4 = 9': {
+                        correct: `${characterName} was at the park playing basketball and scoring points. After a while, ${characterName} scored ........ more points. If ${characterName}'s total score became ........ points, what was ${characterName}'s initial score?`,
+                        input_1: 4,
+                        input_2: 9
+                    }
+                },
+
+                market: {
+                    'X - 2 = 8': {
+                        correct: `${characterName} went to a toy store to buy a new book. ${characterName} bought the book for ........ dollars and still had ........ dollars remaining. How much money did ${characterName} have before buying the book?`,
+                        input_1: 2,
+                        input_2: 8
+                    },
+                    'Y - 4 = 12': {
+                        correct: `${characterName} went to a toy store to buy a new book. ${characterName} bought the book for ........ dollars and still had ........ dollars remaining. How much money did ${characterName} have before buying the book?`,
+                        input_1: 4,
+                        input_2: 12
+                    },
+                    'Z - 5 = 10': {
+                        correct: `${characterName} went to a toy store to buy a new book. ${characterName} bought the book for ........ dollars and still had ........ dollars remaining. How much money did ${characterName} have before buying the book?`,
+                        input_1: 5,
+                        input_2: 10
+                    },
+                    '2A + 4 = 12': {
+                        correct: `${characterName} works in the vegetable section of a busy market. ${characterName} starts by placing ........ oranges in each basket. ${characterName}'s goal is to have a total of ........ oranges in each basket. If ${characterName} adds ........ oranges to each basket at a time, how many times does ${characterName} need to add oranges to reach the goal?`,
+                        input_1: 4,
+                        input_2: 12,
+                        input_3: 2
+                    },
+                    'B + 5 = 17': {
+                        correct: `${characterName} went to the market. An online shop sells football shirts from the market and charges a delivery fee of ........ pounds. If the total cost, including delivery, is ........ pounds, what is the price of the shirt?`,
+                        input_1: 5,
+                        input_2: 17
+                    },
+                    'C + 4 = 9': {
+                        correct: `${characterName} went to the market. An online shop sells football shirts from the market and charges a delivery fee of ........ pounds. If the total cost, including delivery, is ........ pounds, what is the price of the shirt?`,
+                        input_1: 4,
+                        input_2: 9
+                    }
+                },
+
+                school: {
+                    'X - 2 = 8': {
+                        correct: `${characterName} had some pencils. After giving ........ pencils to their classmate at Wingate Primary School, ${characterName} had ........ pencils left. How many pencils did ${characterName} originally have?`,
+                        input_1: 2,
+                        input_2: 8
+                    },
+                    'Y - 4 = 12': {
+                        correct: `${characterName} had some pencils. After giving ........ pencils to their classmate at Wingate Primary School, ${characterName} had ........ pencils left. How many pencils did ${characterName} originally have?`,
+                        input_1: 4,
+                        input_2: 12
+                    },
+                    'Z - 5 = 10': {
+                        correct: `${characterName} had some pencils. After giving ........ pencils to their classmate at Wingate Primary School, ${characterName} had ........ pencils left. How many pencils did ${characterName} originally have?`,
+                        input_1: 5,
+                        input_2: 10
+                    },
+                    '2A + 4 = 12': {
+                        correct: `${characterName} is a student volunteer helping to prepare gift bags for a school event. ${characterName} starts by putting ........ colored markers in each bag. ${characterName}'s goal is to have a total of ........ markers in each bag. If ${characterName} adds ........ markers to each bag at a time, how many times does ${characterName} need to add markers to reach the goal?`,
+                        input_1: 4,
+                        input_2: 12,
+                        input_3: 2
+                    },
+                    'B + 5 = 17': {
+                        correct: `${characterName} had some books. An online shop sells books and charges a delivery fee of ........ pounds. If the total cost, including delivery, is ........ pounds, what is the price of the book?`,
+                        input_1: 5,
+                        input_2: 17
+                    },
+                    'C + 4 = 9': {
+                        correct: `${characterName} had some books. An online shop sells books and charges a delivery fee of ........ pounds. If the total cost, including delivery, is ........ pounds, what is the price of the book?`,
+                        input_1: 4,
+                        input_2: 9
+                    }
+                },
+                house: {
+                    'X - 2 = 8': {
+                        correct: `${characterName} was at home when they decided to buy a new dress online. They used a discount code they found on the shopping site, which saved them ..... dollars. After applying the discount, they paid ..... dollars for the dress. What was the original price of the dress?`,
+                        input_1: 2,
+                        input_2: 8
+                    },
+                    'Y - 4 = 12': {
+                        correct: `${characterName} was at home when they decided to buy a new dress online. They used a discount code they found on the shopping site, which saved them ..... dollars. After applying the discount, they paid ..... dollars for the dress. What was the original price of the dress?`,
+                        input_1: 4,
+                        input_2: 12
+                    },
+                    'Z - 5 = 10': {
+                        correct: `${characterName} was at home when they decided to buy a new dress online. They used a discount code they found on the shopping site, which saved them ..... dollars. After applying the discount, they paid ..... dollars for the dress. What was the original price of the dress?`,
+                        input_1: 5,
+                        input_2: 10
+                    },
+                    '2A + 4 = 12': {
+                        correct: `${characterName} is putting together small treasure bags for a pirate-themed party at home. They start with ..... gold coins in each bag. Their goal is to have a total of ..... coins in each bag to surprise their guests. If they add ..... coins to each bag at a time, how many times do they need to add coins to reach their goal of ..... coins per bag?`,
+                        input_1: 4,
+                        input_2: 15
+                    },
+                    'B + 5 = 17': {
+                        correct: `${characterName} was at home and decided to order Christmas decorations online. An online shop sells decor with a delivery fee of ..... dollars. If the total cost, including delivery, is ..... dollars, what is the price of the decoration?`,
+                        input_1: 5,
+                        input_2: 17
+                    },
+                    'C + 4 = 9': {
+                        correct: `${characterName} was at home and decided to order Christmas decorations online. An online shop sells decor with a delivery fee of ..... dollars. If the total cost, including delivery, is ..... dollars, what is the price of the decoration?`,
+                        input_1: 4,
+                        input_2: 9
+                    }
+                },
+
+                ch_market: {
+                    'X - 2 = 8': {
+                        correct: `${characterName} wandered through the bustling Christmas Market. They bought a small bag of magical stones. On their way home, they gifted ..... of these stones to a curious little girl they met at the market. When they got home, they counted and saw they had ..... stones left. How many magical stones did ${characterName} originally buy?`,
+                        input_1: 2,
+                        input_2: 8
+                    },
+                    'Y - 4 = 12': {
+                        correct: `${characterName} wandered through the bustling Christmas Market. They bought a small bag of magical stones. On their way home, they gifted ..... of these stones to a curious little girl they met at the market. When they got home, they counted and saw they had ..... stones left. How many magical stones did ${characterName} originally buy?`,
+                        input_1: 4,
+                        input_2: 12
+                    },
+                    'Z - 5 = 10': {
+                        correct: `${characterName} wandered through the bustling Christmas Market. They bought a small bag of magical stones. On their way home, they gifted ..... of these stones to a curious little girl they met at the market. When they got home, they counted and saw they had ..... stones left. How many magical stones did ${characterName} originally buy?`,
+                        input_1: 5,
+                        input_2: 10
+                    },
+                    '2A + 4 = 12': {
+                        correct: `${characterName} is preparing treat bags for a Christmas party. They have ..... candies already placed in each bag. They want to add more candies so that each bag has a total of ..... candies. How many candies does ${characterName} need to add?`,
+                        input_1: 4,
+                        input_2: 12
+                    },
+                    'B + 5 = 17': {
+                        correct: `${characterName} was at the Christmas market and bought ..... gifts. Their total bill for all the gifts came to ..... dollars. How much was each gift?`,
+                        input_1: 5,
+                        input_2: 17
+                    },
+                    'C + 4 = 9': {
+                        correct: `${characterName} was at the Christmas market and bought ..... gifts. Their total bill for all the gifts came to ..... dollars. How much was each gift?`,
+                        input_1: 4,
+                        input_2: 9
+                    }
+                },
+
+                wintage: {
+                    'X - 2 = 8': {
+                        correct: `"${characterName} was exploring the cozy streets of the Wingate neighborhood when he spotted a charming, vintage bookshop. Drawn by curiosity, he went in and found an old, beautifully bound poetry book that caught his eye. He decided to buy it, spending ..... dollars. After this purchase, he opened his wallet and saw that he had ..... dollars left. How much money did ${characterName} originally have?"`,
+                        input_1: 2,
+                        input_2: 8
+                    },
+                    'Y - 4 = 12': {
+                        correct: `"${characterName} was exploring the cozy streets of the Wingate neighborhood when he spotted a charming, vintage bookshop. Drawn by curiosity, he went in and found an old, beautifully bound poetry book that caught his eye. He decided to buy it, spending ..... dollars. After this purchase, he opened his wallet and saw that he had ..... dollars left. How much money did ${characterName} originally have?"`,
+                        input_1: 4,
+                        input_2: 12
+                    },
+                    'Z - 5 = 10': {
+                        correct: `"${characterName} was exploring the cozy streets of the Wingate neighborhood when he spotted a charming, vintage bookshop. Drawn by curiosity, he went in and found an old, beautifully bound poetry book that caught his eye. He decided to buy it, spending ..... dollars. After this purchase, he opened his wallet and saw that he had ..... dollars left. How much money did ${characterName} originally have?"`,
+                        input_1: 5,
+                        input_2: 10
+                    },
+                    '2A + 4 = 12': {
+                        correct: `"${characterName} was strolling through the Wingate neighborhood and saw a small shop. He starts by placing ..... apples in each basket. His goal is to have a total of ..... apples in each basket. If he adds ..... apples to each basket at a time, how many times does he need to add apples to reach his goal of ..... apples per basket?"`,
+                        input_1: 4,
+                        input_2: 12
+                    },
+                    'B + 5 = 17': {
+                        correct: `"${characterName} was strolling through the Wingate neighborhood and saw a small shop. He decided to participate in a raffle and won ..... candies. With a total of ..... candies now, how many candies did ${characterName} originally have?"`,
+                        input_1: 5,
+                        input_2: 17
+                    },
+                    'C + 4 = 9': {
+                        correct: `"${characterName} was strolling through the Wingate neighborhood and saw a small shop. He decided to participate in a raffle and won ..... candies. With a total of ..... candies now, how many candies did ${characterName} originally have?"`,
+                        input_1: 4,
+                        input_2: 9
+                    }
+                }
+
+            };
+
+            const placeKey = place ? place.replace('assets/', '').replace('.png', '') : '';
+            const equationKey = equation;
+
+            const selectedStories = stories[placeKey] ? stories[placeKey][equationKey] : undefined;
+            const story1TextElement = document.getElementById('story1-text');
+            story1TextElement.innerText = selectedStories.correct;
+
+            document.getElementById('continueBtn').addEventListener('click', function() {
+             // Inputları al
+             const blank1Value = document.getElementById('blank1').value;
+             const blank2Value = document.getElementById('blank2').value;
+
+             // Doğru değerler
+             const correctBlank1 = selectedStories.input_1;  
+             const correctBlank2 = selectedStories.input_2;;   
+
+             // Eğer herhangi bir input boşsa
+             if (!blank1Value || !blank2Value) {
+                alert('Please enter values for both fields.');
+                return;
+             }
+             const isBlank1Correct = parseInt(blank1Value) === correctBlank1;
+             const isBlank2Correct = parseInt(blank2Value) === correctBlank2;
+             // Girilen değerler doğru mu kontrol et
+             if (isBlank1Correct && isBlank2Correct) {
+                 // Eğer her iki değer de doğruysa
+                 localStorage.setItem('input_result', 'correct');
+                 window.location.href = 'level2_prepare_answer.html';
+             } else if (isBlank1Correct || isBlank2Correct) {
+                 // Eğer sadece biri doğruysa
+                 localStorage.setItem('input_result', 'half_correct');
+                 window.location.href = 'level2_prepare_answer.html';
+
+             } else {
+                 // Eğer her iki değer de yanlışsa
+                 localStorage.setItem('input_result', 'incorrect');
+                 window.location.href = 'level2_prepare_answer.html';
+
+             }
+            });
+
+        });
+    </script>
+</body>
+</html>

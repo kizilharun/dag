@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To Dag</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Honk&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/other-friends-bg.png'); 
+            background-size: cover;
+            background-position: center;
+            overflow-y: auto;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw; 
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+        .other-friend-message {
+            position: absolute;
+            padding: 1% 4%;
+            font-size: 3vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            transition: background-color 0.3s;
+            top: 8%;
+            left: 75%;
+            transform: translate(-50%, -50%);
+            font-family: "Comic Neue", cursive;
+            font-weight: 700;
+            font-style: normal;
+            width: 100%;
+        }
+        .container-leaderboard {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Centering items horizontally */
+            gap: 2vw;
+            width: 25%; /* Adjust width as needed */
+            margin: 0 auto; /* Center the container */
+            margin-top: 8em; /* Keeps the space from the top */
+            padding: 2vw;
+            box-sizing: border-box;
+            margin-left: 10vw;
+        }
+
+        .team {
+            width: 100%;
+            height: 10vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color);
+            color: #fff;
+            padding: 0 3em;
+            border-radius: 1em;
+            font-weight: 800;
+            transition: transform 0.3s;
+            cursor: pointer; /* Makes the cursor a hand (pointer) on hover */
+        }
+
+        .team:hover {
+            transform: scale(1.05);
+        }
+
+        .name {
+            text-transform: capitalize;
+            font-size: 1.5rem;
+        }
+
+        .score {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <div class="other-friend-message">LOOK AT OTHER FRIEND'S PROBLEM</div>
+        </div>
+        <div class="container-leaderboard">
+            <!-- Leaderboard verileri buraya eklenecek -->
+        </div>
+    </div>
+
+    <!-- Supabase ve JavaScript kodları -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            const SUPABASE_URL = 'https://urslutvbwvmhgbmgfkzb.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyc2x1dHZid3ZtaGdibWdma3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAzNjM5MDIsImV4cCI6MjAzNTkzOTkwMn0.zLvgCAqIKu_A0091QVmMp3DQcAyta6MM95MNohl3-bI';
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+            const class_id = localStorage.getItem('class_id');
+            if (!class_id) {
+                alert("Geçerli bir class_id bulunamadı.");
+                return;
+            }
+    
+            try {
+                const { data: users, error } = await supabase
+                    .from('users')
+                    .select('username, total_score, user_story')
+                    .eq('class_id', class_id);
+    
+                if (error) {
+                    console.error("Supabase Hatası:", error);
+                    alert("Verileri çekerken bir hata oluştu.");
+                    return;
+                }
+    
+                if (users && users.length > 0) {
+                    createLeaderboard(users);
+                } else {
+                    alert("Bu sınıfta kullanıcı bulunamadı.");
+                }
+            } catch (err) {
+                console.error("Bir hata oluştu:", err);
+                alert("Bir hata oluştu.");
+            }
+        });
+    
+        function createLeaderboard(users) {
+            users.sort((a, b) => b.total_score - a.total_score);
+    
+            const leaderboardContainer = document.querySelector(".container-leaderboard");
+                    // Rastgele renkler
+            const colors = [
+                "#66bb6a", "#ffa726", "#42a5f5", "#ef5350", "#5c6bc0", "#a1887f"
+            ];
+            let colorIndex = 0; // Renklerin sırasını takip etmek için                
+
+            users.forEach((user, index) => {
+                let box = document.createElement("div");
+                box.className = "team";
+    
+                // Sıradaki rengi al ve döngüyü sağla
+                box.style.setProperty('--color', colors[colorIndex]);
+                colorIndex = (colorIndex + 1) % colors.length;
+    
+                let name = document.createElement("span");
+                name.className = "name";
+                name.innerHTML = `${index + 1}. ${user.username}`; // Sıra numarası ekliyoruz
+
+                box.addEventListener('click', function() {
+                    // Kullanıcının username ve user_story'sini kaydediyoruz
+                    localStorage.setItem('selectedFriendUsername', user.username); 
+                    localStorage.setItem('clicked_user_story1', user.user_story); // user_story'yi de kaydediyoruz
+                    localStorage.setItem('clicked_user_story2', user.user_story2); // user_story'yi de kaydediyoruz
+
+                    window.location.href = 'friend_story.html'; // friend_story sayfasına yönlendirme
+                });
+
+
+                box.appendChild(name);
+    
+                leaderboardContainer.appendChild(box);
+            });
+        }
+    </script>
+    
+</body>
+</html>

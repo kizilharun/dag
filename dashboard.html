@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To Dag</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Honk&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/bg-square.png');
+            background-size: cover;
+            background-position: center;
+        }
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15%;
+            background-color: #f5636b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .welcome-message {
+            font-size: 4vw;
+            color: purple;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-align: center;
+            position: absolute;
+            top: 7%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .button {
+            padding: 1% 4%;
+            margin: 1% 0;
+            font-size: 2vw;
+            font-weight: bold;
+            border: 0.4vw solid #000;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            transform: scale(1.1);
+        }
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 8%;
+            transform: translate(-50%, -50%);
+            height: 150%;
+        }
+        .button-container {
+            position: absolute;
+            bottom: 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const username = localStorage.getItem('username');
+            if (username) {
+                document.querySelector('.welcome-message').textContent = `Welcome ${username}`;
+            }
+
+            document.querySelector('.exit-button').addEventListener('click', function() {
+                localStorage.clear();
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <img src="assets/dag-title.png" class="logo" alt="Logo">
+        </div>
+        <div class="welcome-message">Welcome username</div>
+        <div class="button-container">
+            <button class="button" onclick="location.href='choose_level.html'">Continue Game</button>
+            <button class="button" onclick="location.href='index.html'">Start New Game</button>
+            <button class="button" onclick="location.href='choose_class_for_leaderboard.html'">Leaderboard</button>
+            <button class="button" onclick="location.href='help_video.html'">How to play "DAG"</button>
+            <button class="button exit-button">Exit Game</button>
+        </div>
+    </div>
+</body>
+</html>

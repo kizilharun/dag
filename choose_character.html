@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To Dag</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Honk&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15%; 
+            background-color: #f5636b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2%;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw; 
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .help-button {
+            background-color: #ff4500;
+            color: white;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .menu-button {
+            background-color: #ffd700;
+            font-weight: bold;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .button:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }  
+        .character-message {
+            position: absolute;
+            padding: 1% 4%;
+            font-size: 2vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            transition: background-color 0.3s;
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+        }
+        .content {
+            position: absolute;
+            top: 40%;
+            left: 10%;
+            right: 10%;
+            font-size: 2.5vw;
+            text-align: left;
+            font-weight: bold;
+            font-family: "Comic Neue", cursive;
+            font-weight: 600;
+            font-style: normal;
+        }
+        .chracter-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 2fr);
+            grid-gap: 5vw;
+            width: 100%;
+            margin-top: 10%;
+            margin-left: -6%;
+        }
+        .chracter-grid img {
+            width: 180%;
+            height: auto;
+            border-radius: 1.4vw;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .chracter-grid img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <button class="button menu-button" onclick="location.href='dashboard.html'">MENU</button>
+            <button class="button help-button" onclick="location.href='help.html'">HELP</button>
+            <div class="character-message">CHOOSE YOUR CHARACTER</div>
+        </div>
+        <div class="chracter-grid">
+            <img src="assets/boy.png" alt="Boy" onclick="selectCharacter('assets/boy.png')">
+            <img src="assets/girl.png" alt="Girl" onclick="selectCharacter('assets/girl.png')">
+            <img src="assets/mom.png" alt="Mom" onclick="selectCharacter('assets/mom.png')">
+            <img src="assets/dad.png" alt="Dad" onclick="selectCharacter('assets/dad.png')">
+            <img src="assets/gf.png" alt="Grandfather" onclick="selectCharacter('assets/gf.png')">
+            <img src="assets/gm.png" alt="Grandmother" onclick="selectCharacter('assets/gm.png')">
+            <img src="assets/male_teacher.png" alt="Male Teacher" onclick="selectCharacter('assets/male_teacher.png')">
+            <img src="assets/female_teacher.png" alt="Female Teacher" onclick="selectCharacter('assets/female_teacher.png')">
+            <img src="assets/cat.png" alt="Cat" onclick="selectCharacter('assets/cat.png')">
+            <img src="assets/dog.png" alt="Dog" onclick="selectCharacter('assets/dog.png')">
+        </div>
+    </div>
+
+    <script>
+        function selectCharacter(imageSrc) {
+            localStorage.setItem('selectedCharacter', imageSrc);
+            window.location.href = 'character_name.html';
+        }
+    </script>
+</body>
+</html>

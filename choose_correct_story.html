@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose The Correct Story</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Freeman&family=Honk&family=Poetsen+One&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw;
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .floor-container {
+            left: -10%;
+            position: absolute;
+            top: 20%; 
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 2;
+
+        }
+        .floor img {
+            width: 120%;
+            left: -10%;
+            height: auto;
+            position: absolute;
+            top: 20%; 
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 2; 
+        }
+        .bg-image-container{
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%; 
+            height: 60%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url('assets/school-bg.png'); 
+            opacity: 0.5;
+            z-index: 1; 
+
+        }
+        .welcome-message {
+            position: absolute;
+            padding: 1% 4%;
+            font-size: 3vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            transition: background-color 0.3s;
+            top: 8%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: "Comic Neue", cursive;
+            font-weight: 700;
+            font-style: normal;
+        }
+        .equation-message {
+            position: absolute;
+            padding: 1% 3%;
+            color:white;
+            font-size: 1.5vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            background-color: green;
+            transition: background-color 0.3s;
+            top: 8%; /* Üstten mesafe */
+            right: 2%; /* Sağ kenardan mesafe */
+            transform: translate(0, -50%); /* Sadece yukarı merkezleme */
+            font-family: "Comic Neue", cursive;
+            font-weight: 700;
+            font-style: normal;
+            text-align: right; /* Yazıyı sağa hizalar */
+        }
+        .character-container {
+            position: absolute;
+            top: 60%;
+            left: 52%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 3;
+        }
+        .character {
+            display: flex;
+            align-items: center;
+            font-style: normal;
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            z-index: 3; 
+        }
+        .story-container {
+            position: absolute;
+            top: 10%;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 2;
+        }
+        .story {
+            margin: 3vw 5vw; 
+            width: 100%;
+            z-index: 4;
+        }
+        .story img {
+            width: 100%;
+            height: auto;
+        }
+        .story1-text-container :hover {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        .story2-text-container :hover {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        .story1-text-container {
+            position: absolute;
+            top: 33%; 
+            left: 5%; 
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .story1-input {
+            font-size: 1.1vw;
+            border: none; 
+            outline: none; 
+            width: 100%;
+            max-width: 400px;
+            background: transparent;
+            text-align: center;
+            font-weight: bold;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .story2-text-container {
+            position: absolute;
+            top: 42%; 
+            left: 56%; 
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .story2-input {
+            font-size: 1.1vw;
+            border: none;
+            outline: none; 
+            width: 100%;
+            max-width: 400px;
+            background: transparent;
+            text-align: center;
+            font-weight: bold;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="top-bar">
+            <div class="welcome-message">CHOOSE THE CORRECT STORY</div>
+            <div class="equation-message" id="equation-message">Eq :  </div>
+        </div>
+
+        <div class="floor">
+            <img src="assets/floor1.png" alt="floor">
+        </div>
+
+        <img class="character" id="character-img" src="assets/girl-bg.png" alt="Character">
+
+        <div class="story-container">
+            <div class="story story1" onclick="location.href='level1_prepare_answer.html'">
+                <img src="assets/story1.png" alt="story 1">
+                <div class="story1-text-container">
+                    <p type="text" class="story1-input" id="story1-text"></p>
+                </div>
+            </div>
+            <div class="story story2" onclick="location.href='level1_prepare_answer.html'">
+                <img src="assets/story2.png" alt="story 2">
+                <div class="story2-text-container">
+                    <p type="text" class="story2-input" id="story2-text"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-image-container" id="bg-image-container"></div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Character 
+            const selectedCharacter = localStorage.getItem('selectedCharacter');
+            if (selectedCharacter) {
+                document.getElementById('character-img').src = selectedCharacter;
+            }
+
+            // Place 
+            const selectedPlace = localStorage.getItem('selectedPlace');
+            if (selectedPlace) {
+                const bgImageUrl = selectedPlace.replace('.png', '-bg.png');
+                document.getElementById('bg-image-container').style.backgroundImage = `url('${bgImageUrl}')`;
+            }
+
+            // Equations
+            const equation = localStorage.getItem('selectedEquation');
+            const place = localStorage.getItem('selectedPlace');
+            const selectedEquation = localStorage.getItem('selectedEquation');
+            if (selectedEquation) {
+                
+                document.getElementById('equation-message').textContent += selectedEquation;
+            }
+            const characterName = localStorage.getItem('characterName') || 'El';
+            const stories = {
+                park : {
+                'X - 2 = 8': {
+                    correct: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon for 2 dollars. After this purchase, they had 8 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon. After buying the balloon, they had twice as much money as they spent on it. Before this purchase, they had 8 dollars. How much did the balloon cost?`
+                },
+                'Y - 4 = 12': {
+                    correct: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon for 4 dollars. After this purchase, they had 12 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon. After buying the balloon, they had twice as much money as they spent on it. Before this purchase, they had 12 dollars. How much did the balloon cost?`
+                },
+                'Z - 5 = 10': {
+                    correct: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon for 5 dollars. After this purchase, they had 10 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon. After buying the balloon, they had twice as much money as they spent on it. Before this purchase, they had 10 dollars. How much did the balloon cost?`
+                },
+                '2A + 4 = 12': {
+                    correct: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon. The price of each balloon ${characterName} buys from the market is 2 pounds. One day, ${characterName} goes to the market and also buys a drink for 4 pounds. If they spent a total of 12 pounds that day, how many snack packs did they buy?`,
+                    incorrect: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon. Each balloon at the market costs £2. That day, ${characterName} also bought a drink, which they thought cost £4, but accidentally paid £5 for it. If they spent a total of £12 that day, how many balloons did they buy?`
+                },
+                'B + 5 = 17': {
+                    correct: `${characterName} was at the park playing basketball and scoring points. After a while, they scored 5 more points. If ${characterName}'s total score became 17 points, what was their initial score?`,
+                    incorrect: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon. After buying the balloon, they had twice as much money as they spent on it. Before this purchase, they had 17 dollars. How much did the balloon cost?`
+                },
+                'C + 4 = 9': {
+                    correct: `${characterName} was at the park playing basketball and scoring points. After a while, they scored 4 more points. If ${characterName}'s total score became 9 points, what was their initial score?`,
+                    incorrect: `${characterName} was at the park enjoying a picnic. They decided to buy a balloon. After buying the balloon, they had twice as much money as they spent on it. Before this purchase, they had 9 dollars. How much did the balloon cost?`
+                }
+            },
+            market: {
+                'X - 2 = 8': {
+                    correct: `${characterName} went to a market and spent 2 dollars on chocolate. After this purchase, they had 8 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} went to a market and spent 2 dollars on chocolate. After this purchase, they had 6 dollars left. How much money did ${characterName} originally have?`
+                },
+                'Y - 4 = 12': {
+                    correct: `${characterName} went to a market and spent 4 dollars on chocolate. After this purchase, they had 12 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} went to a market and spent 4 dollars on chocolate. After this purchase, they had 10 dollars left. How much money did ${characterName} originally have?`
+                },
+                'Z - 5 = 10': {
+                    correct: `${characterName} went to a market and spent 5 dollars on chocolate. After this purchase, they had 10 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} went to a market and spent 5 dollars on chocolate. After this purchase, they had 12 dollars left. How much money did ${characterName} originally have?`
+                },
+                '2A + 4 = 12': {
+                    correct: `${characterName} works in the fruit section of a market. They start by placing 4 apples in each basket. Their goal is to have a total of 12 apples in each basket. If they add 2 apples to each basket at a time, how many times do they need to add apples to reach their goal of 12 apples per basket?`,
+                    incorrect: `${characterName} went to a market. They decided to buy chocolate. Each chocolate at the market costs £2. That day, ${characterName} also bought a drink, which they thought cost £4 but accidentally paid £5 for it. If they spent a total of £12 that day, how many chocolates did they buy?`
+                },
+                'B + 5 = 17': {
+                    correct: `${characterName} went to the market, participated in a raffle, and won 5 candies. With a total of 17 candies now, how many candies did ${characterName} originally have?`,
+                    incorrect: `${characterName} went to the market, participated in a raffle, and won 5 candies. With a total of 15 candies now, how many candies did ${characterName} originally have?`
+                },
+                'C + 4 = 9': {
+                    correct: `${characterName} went to the market, participated in a raffle, and won 4 candies. With a total of 9 candies now, how many candies did ${characterName} originally have?`,
+                    incorrect: `${characterName} went to the market, participated in a raffle, and won 4 candies. With a total of 6 candies now, how many candies did ${characterName} originally have?`
+                }
+            },
+            school: {
+                'X - 2 = 8': {
+                    correct: `${characterName} had some books. After donating 2 books to the Wingate Primary School library, they have 8 books left. How many books did ${characterName} have originally?`,
+                    incorrect: `${characterName} had some books. After donating 2 books, they had half as many books left as they originally had. How many books did ${characterName} have originally?`
+                },
+                'Y - 4 = 12': {
+                    correct: `${characterName} had some books. After donating 4 books to the Wingate Primary School library, they have 12 books left. How many books did ${characterName} have originally?`,
+                    incorrect: `${characterName} had some books. After donating 4 books, they had half as many books left as they originally had. How many books did ${characterName} have originally?`
+                },
+                'Z - 5 = 10': {
+                    correct: `${characterName} had some books. After donating 5 books to the Wingate Primary School library, they have 10 books left. How many books did ${characterName} have originally?`,
+                    incorrect: `${characterName} had some books. After donating 5 books, they had half as many books left as they originally had. How many books did ${characterName} have originally?`
+                },
+                '2A + 4 = 12': {
+                    correct: `${characterName} is a student helping to prepare a pencil box for a school event. They start by placing 4 pencils in each basket. Their goal is to have a total of 12 pencils in each basket. If they add 2 pencils to each basket at a time, how many times do they need to add pencils to reach their goal of 12 pencils per box?`,
+                    incorrect: `${characterName} is a student helping to prepare a pencil box for a school event. They start by placing 6 pencils in each basket. Their goal is to have a total of 10 pencils in each basket. If they add 2 pencils to each basket at a time, how many times do they need to add pencils to reach their goal of 12 pencils per box?`
+                },
+                'B + 5 = 17': {
+                    correct: `${characterName} had some books. Their teacher at Wingate Primary School gave them 5 books as a gift. Now they have a total of 17 books. How many books did ${characterName} originally have?`,
+                    incorrect: `${characterName} had some books. After donating 5 books, they had half as many books left as they originally had. How many books did ${characterName} have originally?`
+                },
+                'C + 4 = 9': {
+                    correct: `${characterName} had some books. Their teacher at Wingate Primary School gave them 4 books as a gift. Now they have a total of 9 books. How many books did ${characterName} originally have?`,
+                    incorrect: `${characterName} had some books. After donating 4 books, they had half as many books left as they originally had. How many books did ${characterName} have originally?`
+                }
+            },
+            house: {
+                "X - 2 = 8": {
+                    correct: `${characterName} was at home and decided to buy a new book online. ${characterName} used a discount code which saved 2 dollars. After applying the discount, ${characterName} paid 8 dollars for the book. How much was the original price of the book?`,
+                    incorrect: `${characterName} was at home and decided to save money. ${characterName} received an extra 2 pounds allowance from their dad. In total, ${characterName} ended up with 8 pounds. How much money did ${characterName} originally have?`
+                },
+                "Y - 4 = 12": {
+                    correct: `${characterName} was at home and decided to buy a new book online. ${characterName} used a discount code which saved 4 dollars. After applying the discount, ${characterName} paid 12 dollars for the book. How much was the original price of the book?`,
+                    incorrect: `${characterName} was at home and decided to save money. ${characterName} received an extra 4 pounds allowance from their dad. In total, ${characterName} ended up with 12 pounds. How much money did ${characterName} originally have?`
+                },
+                "Z - 5 = 10": {
+                    correct: `${characterName} was at home and decided to buy a new book online. ${characterName} used a discount code which saved 5 dollars. After applying the discount, ${characterName} paid 10 dollars for the book. How much was the original price of the book?`,
+                    incorrect: `${characterName} was at home and decided to save money. ${characterName} received an extra 5 pounds allowance from their dad. In total, ${characterName} ended up with 10 pounds. How much money did ${characterName} originally have?`
+                },
+                "2A + 4 = 12": {
+                    correct: `${characterName} is preparing treat bags for a Home party. ${characterName} has 4 candies already placed in each bag. ${characterName} wants to add more candies so that each bag has a total of 12 candies. If ${characterName} plans to add 2 candies to each bag at a time, how many times does ${characterName} need to add candies to reach the goal of 12 candies per bag?`,
+                    incorrect: `${characterName} is preparing treat bags for a home party. ${characterName} has 4 candies already placed in each bag. ${characterName} wants to add more candies so that each bag has a total of 12 candies. If ${characterName} plans to add 3 candies to each bag at a time, how many times does ${characterName} need to add candies to reach the goal of 12 candies per bag?`
+                },
+                "B + 5 = 17": {
+                    correct: `${characterName} was at home and decided to save money. ${characterName} received an extra 5 pounds allowance from their dad. In total, ${characterName} ended up with 17 pounds. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was at home and decided to buy a new book online. ${characterName} used a discount code which saved 5 dollars. After applying the discount, ${characterName} paid 17 dollars for the book. How much was the original price of the book?`
+                },
+                "C + 4 = 9": {
+                    correct: `${characterName} was at home and decided to save money. ${characterName} received an extra 4 pounds allowance from their dad. In total, ${characterName} ended up with 9 pounds. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was at home and decided to buy a new book online. ${characterName} used a discount code which saved 4 dollars. After applying the discount, ${characterName} paid 9 dollars for the book. How much was the original price of the book?`
+                }
+            },    
+            ch_market: {
+                "X - 2 = 8": {
+                    correct: `${characterName} bought some candies from Christmas Market. After giving 2 candies to their friend, ${characterName} has 8 candies left. How many candies did ${characterName} originally have?`,
+                    incorrect: `${characterName} went to the Christmas market, and ${characterName} won 2 toys after playing a board game. In total, ${characterName} ended up with 8 toys. How many toys did ${characterName} originally have?`
+                },
+                "Y - 4 = 12": {
+                    correct: `${characterName} bought some candies from Christmas Market. After giving 4 candies to their friend, ${characterName} has 12 candies left. How many candies did ${characterName} originally have?`,
+                    incorrect: `${characterName} went to the Christmas market, and ${characterName} won 4 toys after playing a board game. In total, ${characterName} ended up with 12 toys. How many toys did ${characterName} originally have?`
+                },
+                "Z - 5 = 10": {
+                    correct: `${characterName} bought some candies from Christmas Market. After giving 5 candies to their friend, ${characterName} has 10 candies left. How many candies did ${characterName} originally have?`,
+                    incorrect: `${characterName} went to the Christmas market, and ${characterName} won 5 toys after playing a board game. In total, ${characterName} ended up with 10 toys. How many toys did ${characterName} originally have?`
+                },
+                "2A + 4 = 12": {
+                    correct: `${characterName} is preparing treat bags for a Christmas party. ${characterName} has 4 candies already placed in each bag. ${characterName} wants to add more candies so that each bag has a total of 12 candies. If ${characterName} plans to add 2 candies to each bag at a time, how many times does ${characterName} need to add candies to reach the goal of 12 candies per bag?`,
+                    incorrect: `${characterName} is preparing treat bags for a Christmas party. ${characterName} has 4 candies already placed in each bag. ${characterName} wants to add more candies so that each bag has a total of 8 candies. If ${characterName} plans to add 3 candies to each bag at a time, how many times does ${characterName} need to add candies to reach the goal of 8 candies per bag?`
+                },
+                "B + 5 = 17": {
+                    correct: `${characterName} went to the Christmas market, and ${characterName} won 5 toys after playing a board game. In total, ${characterName} ended up with 17 toys. How many toys did ${characterName} originally have?`,
+                    incorrect: `${characterName} bought some candies from Christmas Market. After giving 5 candies to their friend, ${characterName} has 17 candies left. How many candies did ${characterName} originally have?`
+                },
+                "C + 4 = 9": {
+                    correct: `${characterName} went to the Christmas market, and ${characterName} won 4 toys after playing a board game. In total, ${characterName} ended up with 9 toys. How many toys did ${characterName} originally have?`,
+                    incorrect: `${characterName} bought some candies from Christmas Market. After giving 4 candies to their friend, ${characterName} has 9 candies left. How many candies did ${characterName} originally have?`
+                }
+            },
+            wintage: {
+                "X - 2 = 8": {
+                    correct: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to buy some chocolate, spending 2 dollars. After this purchase, ${characterName} checked their wallet and saw that they had 8 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to participate in a raffle and won 2 candies. With a total of 8 candies now, how many candies did ${characterName} originally have?`
+                },
+                "Y - 4 = 12": {
+                    correct: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to buy some chocolate, spending 4 dollars. After this purchase, ${characterName} checked their wallet and saw that they had 12 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to participate in a raffle and won 4 candies. With a total of 12 candies now, how many candies did ${characterName} originally have?`
+                },
+                "Z - 5 = 10": {
+                    correct: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to buy some chocolate, spending 5 dollars. After this purchase, ${characterName} checked their wallet and saw that they had 10 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to participate in a raffle and won 5 candies. With a total of 10 candies now, how many candies did ${characterName} originally have?`
+                },
+                "2A + 4 = 12": {
+                    correct: `${characterName} is preparing treat bags for a Wingate party. ${characterName} has 4 candies already placed in each bag. ${characterName} wants to add more candies so that each bag has a total of 12 candies. If ${characterName} plans to add 2 candies to each bag at a time, how many times does ${characterName} need to add candies to reach the goal of 12 candies per bag?`,
+                    incorrect: `${characterName} is preparing treat bags for a Wingate party. ${characterName} has 4 candies already placed in each bag. ${characterName} wants to add more candies so that each bag has a total of 10 candies. If ${characterName} plans to add 3 candies to each bag at a time, how many times does ${characterName} need to add candies to reach the goal of 10 candies per bag?`
+                },
+                "B + 5 = 17": {
+                    correct: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to buy some chocolate, spending 5 dollars. After this purchase, ${characterName} checked their wallet and saw that they had 17 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to participate in a raffle and won 5 candies. With a total of 17 candies now, how many candies did ${characterName} originally have?`
+                },
+                "C + 4 = 9": {
+                    correct: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to buy some chocolate, spending 4 dollars. After this purchase, ${characterName} checked their wallet and saw that they had 9 dollars left. How much money did ${characterName} originally have?`,
+                    incorrect: `${characterName} was strolling through the Wingate neighborhood and saw a small shop. ${characterName} decided to participate in a raffle and won 4 candies. With a total of 9 candies now, how many candies did ${characterName} originally have?`
+                }
+            }
+        };
+
+            const placeKey = place ? place.replace('assets/', '').replace('.png', '') : '';
+            const equationKey = equation;
+
+            const selectedStories = stories[placeKey] ? stories[placeKey][equationKey] : undefined;
+
+            if (selectedStories) {
+                const story1TextElement = document.getElementById('story1-text');
+                const story2TextElement = document.getElementById('story2-text');
+
+                let story1Correct = false;
+                if (Math.random() < 0.5) {
+                    story1TextElement.innerText = selectedStories.correct;
+                    story2TextElement.innerText = selectedStories.incorrect;
+                    story1Correct = true;
+                } else {
+                    story1TextElement.innerText = selectedStories.incorrect;
+                    story2TextElement.innerText = selectedStories.correct;
+                    story1Correct = false;
+                }
+
+                // Kullanıcının seçimini kaydet
+                document.querySelector('.story1').addEventListener('click', () => {
+                    const selectedStory = story1TextElement.innerText;
+                    const storyType = story1Correct ? 'correct' : 'incorrect';
+                    localStorage.setItem('selectedStory', JSON.stringify({ text: selectedStory, type: storyType }));
+                    window.location.href = 'level1_prepare_answer.html';
+                });
+
+                document.querySelector('.story2').addEventListener('click', () => {
+                    const selectedStory = story2TextElement.innerText;
+                    const storyType = story1Correct ? 'incorrect' : 'correct';
+                    localStorage.setItem('selectedStory', JSON.stringify({ text: selectedStory, type: storyType }));
+                    window.location.href = 'level1_prepare_answer.html';
+                });
+            } else {
+                console.error('Hikayeler bulunamadı!');
+            }
+        });
+    </script>
+</body>
+</html>

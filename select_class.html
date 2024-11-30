@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome To Dag</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Honk&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/bg-square.png'); 
+            background-size: cover;
+            background-position: center;
+        }
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15%; 
+            background-color: #f5636b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2%;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw; 
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .exit-button {
+            background-color: #00cfff;
+            font-weight: bold;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .help-button {
+            background-color: #ff4500;
+            color: white;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .button:hover {
+            transform: scale(1.1);
+        }
+        .select-class-message {
+            position: absolute;
+            padding: 1% 4%;
+            font-size: 2vw;
+            font-weight: bold;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            transition: background-color 0.3s;
+            top: 50%; /* Yükseklik için yüzde */
+            left: 50%; /* Sol kenar için yüzde */
+            transform: translate(-50%, -50%); /* Yatay ve dikey ortalamak için */
+        }
+        .class-grid {
+            justify-items: center; /* Center items horizontally */
+            align-items: center; /* Center items vertically */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-row-gap: 5vw;
+            width: 100%;
+            margin-top: 10%;
+            padding-top: 4em;
+            overflow-y: auto; /* Dikey kaydırma */
+            height: 70vh; /* Yüksekliği ayarlayarak görünür alanı belirleyin */
+        }
+        .class-button {
+            display: flex;
+            flex-direction: column; /* Elemanları dikey yerleştir */
+            align-items: center; /* Ortalamak için */
+            justify-content: center; /* Ortalamak için */
+            text-align: center;
+            background-color: #fcd24f;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            font-weight: bold;
+            padding: 1% 4%;
+            width: 15em;
+            height: 12em;
+            color: black;
+        }
+        .class-grid button:hover {
+            transform: scale(1.1);
+        }
+        .icon-image {
+            width: 350px; /* İkonun genişliği */
+            height: 175px; /* İkonun yüksekliği */
+            margin-right: 10px; /* İkon ile yazı arasındaki boşluk */
+            vertical-align: middle; /* İkonu yazı ile aynı hizada tut */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <button class="button exit-button" onclick="location.href='index.html'">EXIT</button>
+            <div class="select-class-message">SELECT YOUR CLASS</div>
+            <button class="button help-button" onclick="location.href='help.html'">HELP</button>
+        </div>
+        <div class="class-grid" id="class-grid">
+            <!-- Butonlar JavaScript ile dinamik olarak eklenecek -->
+        </div>
+    </div>
+
+ <!-- Supabase -->
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.20.0/dist/umd/supabase.min.js"></script>
+ <script>
+     document.addEventListener("DOMContentLoaded", async function() {
+         const SUPABASE_URL = 'https://urslutvbwvmhgbmgfkzb.supabase.co';
+         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyc2x1dHZid3ZtaGdibWdma3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAzNjM5MDIsImV4cCI6MjAzNTkzOTkwMn0.zLvgCAqIKu_A0091QVmMp3DQcAyta6MM95MNohl3-bI';
+         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+         async function getClassNames() {
+    // Supabase'den class tablosundan veri çek
+    const { data, error } = await supabase
+        .from('class')
+        .select('*'); // Tüm sütunları seçiyoruz
+
+    if (error) {
+        console.error("Class bilgileri alınırken hata oluştu:", error);
+        return;
+    }
+
+    // class-grid elemanına erişim
+    const classGrid = document.getElementById("class-grid");
+
+        // Verileri butonlar olarak ekleme
+        data.forEach(classItem => {
+            const button = document.createElement('button');
+            button.classList.add('button', 'class-button');
+            button.innerHTML = `
+                <img src="assets/class3.png" alt="Class Icon" class="icon-image">
+                <span>${classItem.class_name}</span>
+            `;
+            button.onclick = () => {
+                // class_id ve class_name'i local storage'a kaydet
+                localStorage.setItem('class_id', classItem.class_id);
+                localStorage.setItem('class_name', classItem.class_name);
+
+                // Yönlendirme
+                location.href = 'login.html';
+
+            };
+            classGrid.appendChild(button);
+        });
+}
+         // Verileri sayfaya yükle
+         getClassNames();
+     });
+ </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Selection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Freeman&family=Honk&family=Poetsen+One&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/bg-square.png'); 
+            background-size: cover;
+            background-position: center;
+        }
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15%; 
+            background-color: #f5636b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2%;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw; 
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .menu-button {
+            background-color: #ffd700;
+            font-weight: bold;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .help-button {
+            background-color: #ff4500;
+            color: white;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .button:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 200%; 
+        }
+        .continue-button {
+            position: absolute;
+            bottom: 3%;
+            right: 3%;
+            padding: 1% 4%;
+            font-size: 2vw;
+            font-weight: bold;
+            border: 0.4vw solid #000;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .continue-button:hover {
+            transform: scale(1.1);
+
+        }
+        .level-container {
+            position: absolute;
+            top: 50%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .level {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2em;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-family: "Freeman", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .level img {
+            width: 40vw;
+            height: auto;
+        }
+        .level span {
+            font-size: 10vw;
+            color: #4CCAE6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <button class="button menu-button" onclick="location.href='dashboard.html'">MENU</button>
+            <img src="assets/dag-title.png" class="logo" alt="Logo">
+            <button class="button help-button" onclick="location.href='help.html'">HELP</button>
+        </div>
+        <div class="level-container">
+            <div class="level">
+                <img src="assets/ch-hand.png" alt="Level 3">
+                <span>LEVEL 3</span>
+            </div>
+        </div>
+        <button class="continue-button" onclick="location.href='choose_equation_level3.html'">Continue</button>
+
+    </div>
+</body>
+</html>

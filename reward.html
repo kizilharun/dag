@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level Selection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Freeman&family=Honk&family=Poetsen+One&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        .top-bar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 15%; 
+            background-color: #f5636b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2%;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 0.5em 1em;
+            font-size: 1.2vw; 
+            font-weight: bold;
+            border: none;
+            border-radius: 0.5em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .menu-button {
+            background-color: #ffd700;
+            font-weight: bold;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .help-button {
+            background-color: #ff4500;
+            color: white;
+            border: 0.25vw solid #000;
+            border-radius: 1.4vw;
+            padding: 1% 4%;
+        }
+        .button:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 200%; 
+        }
+        .continue-button {
+            position: absolute;
+            bottom: 3%;
+            right: 3%;
+            padding: 1% 4%;
+            font-size: 2vw;
+            font-weight: bold;
+            border: 0.4vw solid #000;
+            border-radius: 2vw;
+            background-color: #fcd24f;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .continue-button:hover {
+            transform: scale(1.1);
+
+        }
+        .reward-container {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .reward {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2em;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-family: "Freeman", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }   
+        .reward img {
+            width: 60vw;
+            height: auto;
+        }
+        .reward span {
+            font-size: 8vw;
+            color: #4CCAE6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <button class="button menu-button" onclick="location.href='dashboard.html'">MENU</button>
+            <img src="assets/dag-title.png" class="logo" alt="Logo">
+            <button class="button help-button" onclick="location.href='help.html'">HELP</button>
+        </div>
+        <div class="reward-container">
+            <div class="reward">
+                <img src="assets/gold.png" alt="reward">
+            </div>
+        </div>
+        <button class="continue-button" onclick="location.href='certificate.html'">Continue</button>
+
+    </div>
+</body>
+</html>
+    <!-- Supabase ve JavaScript kodları -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            const SUPABASE_URL = 'https://urslutvbwvmhgbmgfkzb.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyc2x1dHZid3ZtaGdibWdma3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjAzNjM5MDIsImV4cCI6MjAzNTkzOTkwMn0.zLvgCAqIKu_A0091QVmMp3DQcAyta6MM95MNohl3-bI';
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+            const class_id = localStorage.getItem('class_id');
+            const username = localStorage.getItem('username'); // Retrieve the username for the current user
+        
+            if (!class_id || !username) {
+                alert("Geçerli bir class_id veya username bulunamadı.");
+                return;
+            }
+        
+            try {
+                const { data: users, error } = await supabase
+                    .from('users')
+                    .select('username, total_score')
+                    .eq('class_id', class_id);
+        
+                if (error) {
+                    console.error("Supabase Hatası:", error);
+                    alert("Verileri çekerken bir hata oluştu.");
+                    return;
+                }
+        
+                if (users && users.length > 0) {
+                    // Sort users by total_score in descending order
+                    users.sort((a, b) => b.total_score - a.total_score);
+        
+                    // Find the rank of the current user
+                    const userRank = users.findIndex(user => user.username === username) + 1;
+        
+                    // Select the appropriate image based on rank
+                    let rewardImage = "assets/reward.png"; // Default reward image
+                    if (userRank === 1) {
+                        rewardImage = "assets/gold.png";
+                    } else if (userRank === 2) {
+                        rewardImage = "assets/silver.png";
+                    } else if (userRank === 3) {
+                        rewardImage = "assets/bronze.png";
+                    }
+        
+                    // Update the image in the level container
+                    const levelImage = document.querySelector(".reward img");
+                    if (levelImage) {
+                        levelImage.src = rewardImage;
+                    }
+                } else {
+                    alert("Bu sınıfta kullanıcı bulunamadı.");
+                }
+            } catch (err) {
+                console.error("Bir hata oluştu:", err);
+                alert("Bir hata oluştu.");
+            }
+        });
+        </script>
